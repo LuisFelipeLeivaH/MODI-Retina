@@ -37,7 +37,7 @@ aptitude install texlive
 aptitude install graphviz
 ```
 
-Download Anaconda and follow the instructions given on the official webpage. The following link worked for me:
+Download Anaconda and follow the instructions given on the official webpage. The following link works fine:
 
 https://conda.io/docs/user-guide/install/linux.html
 
@@ -61,14 +61,14 @@ After cloning either the new or the original version of the project, in the term
 ```
 ./Install.bash
 ```
-If this did not work, you would have to install by yourself the following programs:
+This scripts installs the following repositories and will ask you if you want to create the documentation of the project.
 
 * [RobotLib](https://github.com/osilvam/RobotLib.git) - V-REP for making a virtual robot simulation
 * [NEAT](https://github.com/osilvam/NEAT.git) - NEAT library from git repository
 * [OpenCV](https://github.com/Itseez/opencv.git) - opencv library for computer vision (see the end of this section if a problem is found)
 
 
-At the end of the script you will be asked if you want to generate the documentation of the project. You have the option of creating only the documentation for MODI_raw_F1 which has full details of how the classes work in that training and the main differences with the other ones. You may choose to create the documentation for all MODI_raw trainings so you will have full documentation of the project without the retina encoder. You may want to create the documentation for all projects as well. If you do not want to create the documentation type n (no). In every case the documentation for RobotLib is created.
+You have the option of creating only the documentation for MODI_raw_F1 which has full details of how the classes work in that training and the main differences with the other ones. You may choose to create the documentation for all MODI_raw trainings so you will have full documentation of the project without the retina encoder. You may also want to create the documentation for all projects. If you do not want to create the documentation type n (no). In every affirmative case the documentation for RobotLib is created.
 
 If you want to create the documentation afterwards you need to type in terminal (in the 'Practica' foldier) the following command, and follow the instructions given:
 
@@ -76,7 +76,7 @@ If you want to create the documentation afterwards you need to type in terminal 
 ./CreateDelete_docs.bash
 ```
 
-If for some reason the executable is corrupted and you need to reinstall it or you want to erase the training files and restart a new simulation you may have to go to the 'Practica' foldier and then execute the following in the terminal. 
+If you want to erase the training files and restart a new simulation or for some reason the executable is corrupted or edited and you need to reinstall it you may have to go to the 'Practica' foldier and then execute the following in the terminal. 
 
 ```
 ./CleanAll.bash
@@ -107,6 +107,8 @@ chmod 744 Execute.bash
 
 Follow the instructions given by the program in the terminal. Then, the program will ask you to choose between running a Training or the Champion. Do not choose Champion unless a complete training has been done before (i.e. choose Training and wait until the program finishes itself).
 
+If you want to understand more about the project please generate its documentation (see Installing section). A document in html and latex will be created. To open the document in html you need a browser and open the 'docs' foldier, then in 'html' and finaly open the file 'index.html'
+
 ## Authors
 
 * **Oscar Silva** - *Working program* - [osilvam](https://github.com/osilvam/)
@@ -117,4 +119,5 @@ Follow the instructions given by the program in the terminal. Then, the program 
 * Patricio Cerda
 * Maria José Escobar
 * A. Palacios
+
 
