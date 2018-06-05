@@ -28,6 +28,15 @@ You need to have installed 'make'. If you do not, type the following in terminal
 sudo apt-get install build-essential
 ```
 
+In order to generate the documentation you need to install 'doxygen':
+
+```
+sudo apt-get install aptitude
+aptitude install doxygen
+aptitude install texlive
+aptitude install graphviz
+```
+
 Download Anaconda and follow the instructions given on the official webpage. The following link worked for me:
 
 https://conda.io/docs/user-guide/install/linux.html
@@ -38,7 +47,7 @@ https://conda.io/docs/user-guide/install/linux.html
 First open a temrinal in the foldier you want to have your project, and clone this version of the repository form github
 
 ```
-pending...
+git clone https://github.com/LuisFelipeLeivaH/MODI-RETINA.git
 ```
 
 You may want to clone the original reposiroty as well. This is not recommended since it does not have the project documentation

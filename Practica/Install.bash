@@ -73,4 +73,4 @@ cd MODI_retina_F1; make; cd ..;
 cd MODI_retina_F2; make; cd ..;
 cd MODI_retina_F3; make; cd ..;
 
-./create_docs.bash
+./CreateDelete_docs.bash
