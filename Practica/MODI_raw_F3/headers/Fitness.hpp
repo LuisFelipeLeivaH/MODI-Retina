@@ -1,0 +1,121 @@
+#ifndef FITNESS_HPP
+#define FITNESS_HPP
+
+#include <vector>
+#include <cmath>
+#include <iostream>
+#include "CalcFunctions.hpp"
+
+using namespace std;
+
+#define FAILED_FITNESS 0.00001
+#define FITNESS_BASE 0.00001
+
+/**
+	A fitness class for meassuring the performance of the different generations. 
+	
+	The performance is higher as the robot travels higher distances from the initial to the final position in the simulation.
+	Note that this works with the distance as a difference of vectors between the initial and final point, so it does not matter
+	the intermediate path.
+	In order to compute the fitness it is a must to make different measurements so that the object
+	has enough data to decide whether the current simulation is valid or not.
+
+*/
+
+class Fitness
+{
+	double fitness;
+	double distance;
+	vector < vector < double > > robot_position;
+	vector < double > robot_rightVel;
+	vector < double > robot_leftVel;
+	vector < double > generation_fitness;
+
+public:
+
+	/**
+		\brief Constructor
+	*/
+	Fitness();
+
+	/**
+		\brief Destructor
+	*/
+	~Fitness();
+
+	/**
+	*	@brief Keeps track of the position and velocity of the robot
+	*	@param position A vector representing the robot position
+	*	@param rightVel The instant right wheel velocity
+	*	@param leftVel The instant left wheel velocity
+	*
+	*	This function member adds the instant vector of position and velocity everytime it is invoked.
+	*	The data is stored in the current object.
+	*
+	*/
+	void measuringValues(vector < double > position, double rightVel, double leftVel);
+
+	/**
+	*	@brief Computes the fitness for the current simulation
+	*	@return The fitness of the current simulation
+	*	@see measuringValues(vector < double >, double, double)
+	*
+	*	In order to have a valid simulation this member function makes sure the robot changes his movement direction more
+	*	than a certain threshold. If this conditions is met the	value returned will be the minimum possible fitness. The 
+	*	fitness is computed with the distance as a difference of vectors between the first and last point measured calling
+	*	measuringValues.
+	*	This value of the fitness and distance is stored in the object and it keeps track of the fitness per generation.
+	*
+	*/
+	double calculateFitness();
+
+	/**
+	*	@brief Clears the object's vector of position and right and left wheel speed
+	*	
+	*	Reset the vectors of the current population so a new one can be tested.
+	*	The vector of the current generation is kept.
+	*
+	*/
+	void resetPopulationValues();
+
+	/**
+	*	@brief Clears the object's generation fitness
+	*
+	*	Reset the current generation fitness so a new one can be tested.	
+	*
+	*/
+	void resetGenerationValues();
+
+	/**
+	*	@brief Not implemented
+	*
+	*/
+	double getFrecuency();
+
+	/**
+	*	@brief Gives the fitness
+	*	@return The last computed fitness
+	*	@see calculateFitness()	
+	*
+	*/
+	double getFitness();
+
+	/**
+	*	@brief Gives the distance
+	*	@return The last computed distance
+	*	@see calculateFitness()	
+	*
+	*/
+	double getDistance();
+
+	/**
+	*	@brief Used to get the current generation fitness
+	*	@return A vector of double with the fitness per generation
+	*	@see calculateFitness()		
+	*
+	*/
+	vector < double > getGenerationFitness();
+
+};
+
+#endif
