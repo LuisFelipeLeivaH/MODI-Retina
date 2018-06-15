@@ -44,14 +44,14 @@ read TAREA
 
 if [ $TAREA == T ]
 	then	
-	bash Run.bash $EXPERIMENT $TAREA $PORT
+	bash Run.bash $EXPERIMENT $TAREA $PORT $SCENE
 elif [ $TAREA == S ]
 	then
 	cd $EXPERIMENT
 	if [ -f "./bin/NEAT_organisms/Champion.txt" ]
 		then
 		cd ..
-		bash Run.bash $EXPERIMENT $TAREA $PORT
+		bash Run.bash $EXPERIMENT $TAREA $PORT $SCENE
 	else
 		echo ERROR: No existe el archivo Champion.txt
 		cd ..

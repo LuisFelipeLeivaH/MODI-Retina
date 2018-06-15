@@ -121,17 +121,88 @@ chmod 744 Execute.bash
 
 Follow the instructions given by the program in the terminal. Then, the program will ask you to choose between running a Training or the Champion. Do not choose Champion unless a complete training has been done before (i.e. choose Training and wait until the program finishes itself).
 
+Once the entire training has been completed a copy with all training simulations information will be copied to a matlab/data foldier right after the MODI_r* foldier. This documents are needed for the data analysis but the champion runs with the information stored in the bin foldier.
+
 If you want to understand more about the project please generate its documentation (see Documentation section). A document in html and latex will be created. To open the document in html you need a browser and open the 'docs' foldier, then in 'html' and finaly open the file 'index.html'
+
+## Data analysis 
+
+### Individual plots per MODI foldier
+
+In each MODI foldier you will find a 'matlab' foldier where there is a python script called 'processResults.py'. You can run this script to analyze the fitness and champions results given in the training stage. A new foldier will be created in the 'matlab' foldier called 'graphs', where you will find plots in pdf format for each scene. If one scene is not yet completed the graphs will be in yellow without data plotted.
+
+### General analysis for the entire project
+
+In the foldier called 'practica' there are two scripts for analyzing the information in all MODI's trainings. The first and recommended is to simulate with the python script 'processResults.py' which will create a 'simulation_graphs' foldier in docs (i.e. ./docs/simulation_graphs) with all the graphs for fitness and champions altogether in a subplot in pdf format. This is done for every scene. In case a simulation has not been done yet its respective plot will be yellow without any data, but all other plot will be sucessfully created.
+
+If you want to run the plots in MATLAB you can use the 'plot_fitness.m' script. In this case, you need to enter the number of scene to simulate (i.e. '1' for the red cubes scene, and '2' for the cubes with the leaves scene). The plots for the simulations that haven't been done yet will be displayed without a problem as blank plots, and the other plots will be sucessfully created.
+
+## Possible complications
+
+Sometimes the simulation is overwhelmed by "not existent nodes" and the Champion cannot be loaded. In order to avoid this, when the NEAT repository is downloaded please go to 'Practica' foldier and then go to 'Practica/NEAT/src/genetic_encoding.cpp'. Here you have to comment all outputs that say 'o << "\t\t\t{\"exist\": " << Lnode_genes[i].exist ;' in the function member 'string Genetic_Encoding::JSON()'. If you do not want to do this yourself, please replace this function member for the following code:
+
+```
+string Genetic_Encoding::JSON(){
+	int 			node_size 		(Lnode_genes.size());
+	int 			connection_size (Lconnection_genes.size());
+	stringstream 	o;
+	o << "{\n\t\"Genetic_Encoding\":\n\t{" ;
+
+
+	o << "\n\t\t\"row_order\":\n\t\t[\n\t\t\t";
+	for (int i = 0; i < (int)row_orderer_list.size(); ++i)
+	{
+		o << row_orderer_list[i];
+		if(i < (int)row_orderer_list.size()-1)
+			o << ",";
+		else{
+			o << "\n\t\t]";
+		}
+	}
+
+	o << "\n\t\t\"nodes\":\n\t\t[\n";
+	for (int i = 0; i < node_size; ++i)
+	{
+		if(Lnode_genes[i].exist)
+			o << "\t\t\t{\"exist\": " << Lnode_genes[i].exist  << ",\"node\": " <<Lnode_genes[i].node << ",\"type\": " << Lnode_genes[i].type << ", \"row\": " << Lnode_genes[i].row << ", \"function\": \"" << Lnode_genes[i].random_function.str_name << "\"";
+//		else
+//			o << "\t\t\t{\"exist\": " << Lnode_genes[i].exist ;
+		if(i<node_size-1)
+			o <<  "},\n";
+		else
+			o <<  "}\n";
+	}
+
+	o << "\t\t],\n\t\t\"connection_genes\":\n\t\t[\n";
+	for (int i = 0; i < connection_size; ++i)
+	{
+		if(Lconnection_genes[i].exist)
+			o << "\t\t\t{\"exist\": " << Lconnection_genes[i].exist << ",\"innovation\": " << Lconnection_genes[i].innovation << ",\"in\": " << Lconnection_genes[i].in << ",\"out\": " << Lconnection_genes[i].out << ",\"weight\": " << Lconnection_genes[i].weight << ",\"enable\": " << Lconnection_genes[i].enable;
+//		else
+//			o << "\t\t\t{\"exist\": " << Lconnection_genes[i].exist;
+
+		if(i<connection_size-1)
+			o <<  "},\n";
+		else
+			o <<  "}\n";
+	}
+
+	o << "\t\t]\n\t}\n}";
+	return o.str();
+}
+```
+
 
 ## Authors
 
 * **Oscar Silva** - *Working program* - [osilvam](https://github.com/osilvam/)
-* **Luis Leiva**  - *Documentation*	  - [LuisFelipeLeivaH](https://github.com/LuisFelipeLeivaH)
+* **Luis Leiva**  - *Documentation/Simulations* - [LuisFelipeLeivaH](https://github.com/LuisFelipeLeivaH)
 
 ## Acknowledgments
 
 * Patricio Cerda
 * Maria José Escobar
 * A. Palacios
+
 
 
