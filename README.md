@@ -129,11 +129,11 @@ If you want to understand more about the project please generate its documentati
 
 ### Individual plots per MODI foldier
 
-In each MODI foldier you will find a 'matlab' foldier where there is a python script called 'processResults.py'. You can run this script to analyze the fitness and champions results given in the training stage. A new foldier will be created in the 'matlab' foldier called 'graphs', where you will find plots in pdf format for each scene. If one scene is not yet completed the graphs will be in yellow without data plotted.
+In each MODI foldier you will find a 'matlab' foldier where there is a python script called 'processResults.py'. You can run this script to analyze the fitness and champions results given in the training stage. A new foldier will be created in the 'matlab' foldier called 'graphs', where you will find plots in pdf format for each scene. If one scene is not yet completed the graphs will be in yellow without data plotted. It will be created a bar plot for the activation functions as well.
 
 ### General analysis for the entire project
 
-In the foldier called 'practica' there are two scripts for analyzing the information in all MODI's trainings. The first and recommended is to simulate with the python script 'processResults.py' which will create a 'simulation_graphs' foldier in docs (i.e. ./docs/simulation_graphs) with all the graphs for fitness and champions altogether in a subplot in pdf format. This is done for every scene. In case a simulation has not been done yet its respective plot will be yellow without any data, but all other plot will be sucessfully created.
+In the foldier called 'practica' there are two scripts for analyzing the information in all MODI's trainings. The first and recommended is to simulate with the python script 'processResults.py' which will create a 'simulation_graphs' foldier in docs (i.e. ./docs/simulation_graphs) with all the graphs for fitness and champions altogether in a subplot in pdf format. This is done for every scene. In case a simulation has not been done yet its respective plot will be yellow without any data, but all other plot will be sucessfully created. It will be created a bar plot for the activation functions as well.
 
 If you want to run the plots in MATLAB you can use the 'plot_fitness.m' script. In this case, you need to enter the number of scene to simulate (i.e. '1' for the red cubes scene, and '2' for the cubes with the leaves scene). The plots for the simulations that haven't been done yet will be displayed without a problem as blank plots, and the other plots will be sucessfully created.
 
