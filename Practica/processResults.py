@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pylab as plt
+from matplotlib.ticker import FuncFormatter
 from matplotlib.backends.backend_pdf import PdfPages
 
 cgray = [0.3,0.3,0.3]
@@ -14,9 +15,15 @@ if(not os.path.isdir(graphs_all_p+scenes[0])):
 if(not os.path.isdir(graphs_all_p+scenes[1])):
 	os.makedirs(graphs_all_p+scenes[1])
 
+
+
+
 #--------------------------------------------------------------------
 # ------------      Fitness      ------------------------------------
 #--------------------------------------------------------------------
+
+
+
 
 for scene in scenes:
 	i=1		# used as an auxiliary for subplotting
@@ -52,9 +59,16 @@ for scene in scenes:
 	#  graphs_all_p + scene +'/' + 'experimentFitness_comparison.pdf'
 	plt.savefig(graphs_all_p + scene +'experimentFitness_comparison.pdf', format='pdf', bbox_inches='tight')
 	i=1		# used as an auxiliary for subplotting
+
+
+
+
 #--------------------------------------------------------------------
-# ------------      Champion      -----------------------------------
+# ------------      Champion fitnesses per generation      ----------
 #--------------------------------------------------------------------
+
+
+
 
 for scene in scenes:
 	i=1		# used as an auxiliary for subplotting
@@ -79,8 +93,71 @@ for scene in scenes:
 			plt.xlabel('Champion '+MODI_path + ': Not yet simulated')
 		i += 1
 
-		#plt.savefig(path+'graphs/championFitness_'+MODI_path+'.pdf', format='pdf', bbox_inches='tight')
-	#  graphs_all_p + scene + 'experimentFitness_comparison.pdf'
 	plt.savefig(graphs_all_p + scene +'experimentChampion_comparison.pdf', format='pdf', bbox_inches='tight')
 
 #plt.show()
+
+
+
+
+#--------------------------------------------------------------------
+# ------------      Champion activation functions      --------------
+#--------------------------------------------------------------------
+
+
+
+
+N = 5				# Number of activation functions
+x = np.arange(N)
+def identity(x, pos):
+	return '%1.1f' % (x)
+
+formatter = FuncFormatter(identity)
+
+for scene in scenes:
+	for MODI_path in MODI_paths:
+		path = 'MODI_' + MODI_path + '/matlab/data/' + scene +'NEAT_organisms/'	
+		if(os.path.exists(path+'Champion.txt')):			
+
+			state='init'																#  Used for reading the Champion
+			ran_f = {'gaussian': 0, 'sigmoid': 0, 'sin': 0, 'cos': 0, 'identity': 0}	# random functions to be counted
+			Champion = open(path+'Champion.txt', 'r')
+
+			for line in Champion:
+				values=line.strip().split(':')
+
+				# state machine for reading the genetic file
+				if(values[0].replace('"', '' ) == "Genetic_Encoding"):
+					state="Genetic_Encoding"					
+				elif(values[0].replace('"', '') == "connection_genes"):
+					state = "connection_genes"					
+
+				# Reads and counts the random function
+				if(state == "Genetic_Encoding"):
+					if(len(values) == 6):
+						fn = values[5].replace('"', '').replace('},','').replace(' ', '')
+						if fn in ran_f:
+							ran_f[fn] += 1
+
+			Champion.close()
+
+			val = [ran_f['gaussian'], ran_f['sigmoid'], ran_f['sin'], ran_f['cos'], ran_f['identity']]
+
+			path = 'MODI_' + MODI_path + '/matlab/data/' + scene +'NEAT_organisms/'
+			fig, ax = plt.subplots()
+			ax.yaxis.set_major_formatter(formatter)
+			plt.bar(x, val)
+			plt.xticks(x, ('gaussian', 'sigmoid', 'sin', 'cos', 'identity'))
+			ax.set_ylabel('Number of random functions')
+			ax.set_title('Type of activation functions in Champion_' + MODI_path)
+
+			for i, v in enumerate(val):
+				ax.text(i-0.16, v + 3, str(v), color='blue', fontweight='bold')
+
+		else:
+			#print 'File ' + path + 'Champion.txt' + ' does not yet exist'
+			plt.subplot(111, facecolor='y') # creates a subplot with yellow background if not yet simulated
+			plt.xlabel('Champion '+MODI_path + ': Not yet simulated')
+
+		plt.savefig(graphs_all_p + scene +'Champion_'+MODI_path+'_ActivationFunctions.pdf', format='pdf', bbox_inches='tight')
+
