@@ -123,7 +123,7 @@ Follow the instructions given by the program in the terminal. Then, the program 
 
 Once the entire training has been completed a copy with all training simulations information will be copied to a matlab/data foldier right after the MODI_r* foldier. This documents are needed for the data analysis but the champion runs with the information stored in the bin foldier.
 
-If you want to understand more about the project please generate its documentation (see Documentation section). A document in html and latex will be created. To open the document in html you need a browser and open the 'docs' foldier, then in 'html' and finaly open the file 'index.html'
+If you want to understand more about the project please generate its documentation (see Documentation section). A document in html and latex will be created. To open the document in html you need a browser and open the 'docs' foldier, then in 'html' and finally open the file 'index.html'
 
 ## Data analysis 
 
