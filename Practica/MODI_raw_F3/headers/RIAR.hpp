@@ -41,7 +41,7 @@ using namespace ANN_USM;
 
 /**
 *	@mainpage RIAR and Champion
-*	@author Oscar Silva
+*	@author Oscar Silva and Luis Leiva
 *	@date Sep 30, 2016
 *	@see Original repository: https://github.com/osilvam/Practica
 *
@@ -74,50 +74,58 @@ using namespace ANN_USM;
 		Program intended to run the champion simulation of the last training made. 
     	In order to use this program, the whole training must be completed.
 
+    MODI_raw_F1, MODI_raw_F2, MODI_raw_F3:
+
+    	In these cases the robot is placed in the middle of a board with a lot of cubes placed randomly. The 
+    	robot gains fitness basically in terms of the distance covered in the simulation in any direction. The 
+    	simulation time is constant between simulations and all NEAT outputs are sent directly to the individual 
+    	wheels velocity. In all cases the robot is free to do whatever it wants in the simulation time, but when 
+    	it does a behavior that the experiment is worried about the fitness is penalized. All wheels are given a 
+    	minimum and maximum velocity. A more detailed description about the differences between these ones and 
+    	their corresponding retina versions are shown below as characteristic for each simulation. Note that 
+    	these experiments are the original ones created by the first author, Oscar Silva.
+
     MODI_raw_F1:
 
-		This experiment does not detect the collides made by the robot, but it does detect when it moves
-		backwards. The experiment worries that the individual wheels of the robot change their
-		velocity independently. The fitness is computed taking into account every distance covered between 
-		measurements during the simulation. The raw input image is sent to NEAT.
+    	This experiment penalize fitness if the robot moves backwards. 
+    	If the robot's individual wheels do not change their velocity in the simulation more than a fixed criteria 
+    	the fitness is said to be invalid.
+    	If the fitness is valid, the fitness is equal to the sum of the distances cover between every measurement 
+    	during the simulation.
 
 	MODI_raw_F2:
 
-		This experiment detects collides made by the robot so that it can be taken into account by the
-		fitness. It also detects when the robot moves backwards. The experiment worries that the 
-		individual wheels of the robot change their	velocity independently. The fitness is computed taking 
-		into account every distance covered between measurements during the simulation. The raw input image is sent to NEAT.
+		This experiment penalize fitness if the robot moves backwards and if the robot collides with something.
+		Everything else is the same as MODI_raw_F1. 
 
 	MODI_raw_F3:
 
 		This experiment does not detect the collides made by the robot and it does not mind if the robot is moving backwards
-		or not, but it does mind the change in movement direction instead of the changes in the speed of the wheels
-		themselves. This experiment computes the fitness in terms of how much distance it covers between the initial
-		measurement and the last one in the entire simulation. The raw input image is sent to NEAT.
+		or not, but it does mind the change in movement direction instead of the changes in the velocity of the wheels
+		themselves. If they do not change the differential velocity more than a fixed criteria the fitness is said to be invalid.
+		This experiment computes the fitness in terms of how much distance it covers between the initial
+		measurement and the last one in the entire simulation. In other words, the fitness is equal to the magnitude of the distance 
+		vector which starts in the middle of the board and finishes in the last measurement point of the robot in the simulation.
 
-	MODI_retina_F1:
+    MODI_raw_F4 and MODI_raw_F5:
 
-		This experiment does not detect the collides made by the robot, but it does detect when it moves
-		backwards. The experiment worries that the individual wheels of the robot change their
-		velocity independently. The fitness is computed taking into account every distance covered between 
-		measurements during the simulation. The input image is processed by the Retina encoder before going to NEAT.
+		In these experiments it was decided to use a new maze-like scene with cubes put randomly. The board was split into 5 different 
+		zones with a growing difficulty, and the robot gets fitness while it is approaching to the finish zone. The robot detects the 
+		collisions and recoils for a little period of time so the cube can be put in the visual domain in case it was not seen by the 
+		robot and gives the chance to recover. If the robot colides more than 2 times the fitness is punished and the time of simulation 
+		decrease. If the robot is halted for more than a fixed period of time the simulation stops. The simulation time can increase if 
+		the robot is behaving the way we want but stops relatively fast otherwise. In the case of MODI_raw_F4, NEAT decides in the speed 
+		of each individual wheel between a range of minimum and maximum speed, whereas in MODI_raw_F5 NEAT decides the differential speed 
+		for the wheels with a default "idle" speed. In this last case there is a maximum differential speed, and if NEAT tries to get it 
+		over, the robot starts rotating on its axis.
 
-	MODI_retina_F2:
+	MODI_retina_F1, MODI_retina_F2, MODI_retina_F3, MODI_retina_F4 and MODI_retina_F5:
 
-		This experiment detects collides made by the robot so that it can be taken into account by the
-		fitness. It also detects when the robot moves backwards. The experiment worries that the 
-		individual wheels of the robot change their	velocity independently. The fitness is computed taking 
-		into account every distance covered between measurements during the simulation. The input image is processed 
-		by the Retina encoder before going to NEAT.
+    	The only difference between MODI_raw_FX and its respective MODI_retina_FX is that the first one send the raw input image to NEAT 
+    	while the latter send it after processing it with the Retina encoder.
+  
 
-	MODI_retina_F3:
-
-		This experiment does not detect the collides made by the robot and it does not mind if the robot is moving backwards
-		or not, but it does mind the change in movement direction instead of the changes in the speed of the wheels
-		themselves. This experiment computes the fitness in terms of how much distance it covers between the initial
-		measurement and the last one in the entire simulation. The input image is processed 
-		by the Retina encoder before going to NEAT.
-
+	
 */
 
 

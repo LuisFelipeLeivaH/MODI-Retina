@@ -12,9 +12,9 @@ CNAME = ../saveTrains.zip
 
 all: CalcFunctions.o Fitness.o SimFiles.o Retina.o
 	@echo "Linking all objects to ./bin/$(EXECUTABLE1)"
-	@$(CC) $(CFLAGS) ./src/RIAR.cpp ./objects/Retina.o ./objects/Fitness.o ./objects/SimFiles.o ./objects/CalcFunctions.o -o ./bin/$(EXECUTABLE1) $(LDFLAGS)
+	@$(CC) $(CFLAGS) ./src/RIAR.cpp ./objects/Fitness.o ./objects/SimFiles.o ./objects/CalcFunctions.o -o ./bin/$(EXECUTABLE1) $(LDFLAGS)
 	@echo "Linking all objects to ./bin/$(EXECUTABLE2)"
-	@$(CC) $(CFLAGS) ./src/Champion.cpp ./objects/Retina.o ./objects/Fitness.o ./objects/SimFiles.o ./objects/CalcFunctions.o -o ./bin/$(EXECUTABLE2) $(LDFLAGS)
+	@$(CC) $(CFLAGS) ./src/Champion.cpp ./objects/Fitness.o ./objects/SimFiles.o ./objects/CalcFunctions.o -o ./bin/$(EXECUTABLE2) $(LDFLAGS)
 	@echo "Linking all objects to ./bin/$(EXECUTABLE3)"
 	@$(CC) $(CFLAGS) ./src/RetinaFilter.cpp ./objects/Retina.o -o ./bin/$(EXECUTABLE3) $(LDFLAGS)
 
@@ -48,6 +48,8 @@ clean:
 	@rm -f -R ./bin/videoRecorder*
 	@rm -f -R ./bin/simulation_files*
 	@rm -f ./bin/*.txt
+	@rm -f -R ./matlab/graphs
+	@rm -f -R ./matlab/data
 	@if [ -d saveTrains* ] ; \
 	then \
 	    zip -r $(CNAME) ./saveTrains* ; \

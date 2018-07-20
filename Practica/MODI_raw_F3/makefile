@@ -48,6 +48,8 @@ clean:
 	@rm -f -R ./bin/videoRecorder*
 	@rm -f -R ./bin/simulation_files*
 	@rm -f ./bin/*.txt
+	@rm -f -R ./matlab/graphs
+	@rm -f -R ./matlab/data
 	@if [ -d saveTrains* ] ; \
 	then \
 	    zip -r $(CNAME) ./saveTrains* ; \

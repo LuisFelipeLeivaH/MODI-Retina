@@ -1,14 +1,19 @@
-EXPERIMENTOPC=(MODI_raw_F1 MODI_raw_F2 MODI_raw_F3 MODI_retina_F1 MODI_retina_F2 MODI_retina_F3)
+EXPERIMENTOPC=(MODI_raw_F1 MODI_raw_F2 MODI_raw_F3 MODI_raw_F4 MODI_raw_F5 MODI_retina_F1 MODI_retina_F2 MODI_retina_F3 MODI_retina_F4 MODI_retina_F5)
 
 echo Escriba el numero del experimento que desea realizar
 echo Opciones:
 echo -e ' \t ' 1.- MODI_raw_F1
 echo -e ' \t ' 2.- MODI_raw_F2
 echo -e ' \t ' 3.- MODI_raw_F3
-echo -e ' \t ' 4.- MODI_retina_F1
-echo -e ' \t ' 5.- MODI_retina_F2
-echo -e ' \t ' 6.- MODI_retina_F3
+echo -e ' \t ' 4.- MODI_raw_F4
+echo -e ' \t ' 5.- MODI_raw_F5
+echo -e ' \t ' 6.- MODI_retina_F1
+echo -e ' \t ' 7.- MODI_retina_F2
+echo -e ' \t ' 8.- MODI_retina_F3
+echo -e ' \t ' 9.- MODI_retina_F4
+echo -e ' \t ' 10.- MODI_retina_F5
 read EXPERIMENT
+NUM=$EXPERIMENT
 EXPERIMENT=${EXPERIMENTOPC[$((EXPERIMENT - 1))]}
 
 echo Seleccione la escena a usar '('1 ó 2')':
@@ -25,7 +30,12 @@ if [ -d V-REP* ]
 		check_port=$(netstat -an | grep $PORT) 
 	done
 
-	TTTN="../Scene"$SCENE"_FINAL.ttt"
+	if [[ $NUM == 4 || $NUM == 5 || $NUM == 9 || $NUM == 10 ]]; then
+		TTTN="../Maze_Scene"$SCENE".ttt"
+	else
+		TTTN="../Scene"$SCENE"_FINAL.ttt"
+	fi
+	
 
 	cd V-REP*
 	chmod 755 MultiVrep.sh; 
@@ -45,6 +55,7 @@ read TAREA
 if [ $TAREA == T ]
 	then	
 	bash Run.bash $EXPERIMENT $TAREA $PORT $SCENE
+
 elif [ $TAREA == S ]
 	then
 	cd $EXPERIMENT

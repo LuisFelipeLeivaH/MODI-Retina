@@ -23,16 +23,16 @@ done
 if [ $DOCS = "Y" ]
 	then
 		cd ./docs
-		echo "Do you wish to create documentation only for MODI_raw_F1, for all MODI_raw's or prefer full documentation? (type the number please)"
+		echo "Do you wish to create documentation only for MODI_raw_F1 and MODI_raw_F4, for all MODI_raw's or do you prefer full documentation? (type the number please)"
 		while : ; do
-			echo -e ' \t ' 1.- MODI_raw_F1
+			echo -e ' \t ' 1.- MODI_raw_F1 and MODI_raw_F4
 			echo -e ' \t ' 2.- MODI_raw_\*
 			echo -e ' \t ' 3.- Full documentation
 			read OPTION
 		
 			if [ $OPTION == 1 ]
 			then
-				make MODI_raw_F1
+				make MODI_raw_F1F4
 				break
 
 			elif [ $OPTION == 2 ]

@@ -7,7 +7,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 cgray = [0.3,0.3,0.3]
 scenes=['Scene1/', 'Scene2/']
 graphs_all_p = 'docs/simulation_graphs/'
-MODI_paths = ['raw_F1', 'raw_F2', 'raw_F3', 'retina_F1', 'retina_F2', 'retina_F3']
+MODI_paths = ['raw_F1', 'raw_F2', 'raw_F3', 'raw_F4', 'raw_F5', 'retina_F1', 'retina_F2', 'retina_F3', 'retina_F4', 'retina_F5']
 
 # Makes sure the graphs foldier exists
 if(not os.path.isdir(graphs_all_p+scenes[0])):
@@ -116,7 +116,7 @@ formatter = FuncFormatter(identity)
 
 for scene in scenes:
 	for MODI_path in MODI_paths:
-		path = 'MODI_' + MODI_path + '/matlab/data/' + scene +'NEAT_organisms/'	
+		path = 'MODI_' + MODI_path + '/matlab/data/' + scene +'NEAT_organisms/'			
 		if(os.path.exists(path+'Champion.txt')):			
 
 			state='init'																#  Used for reading the Champion
@@ -143,7 +143,6 @@ for scene in scenes:
 
 			val = [ran_f['gaussian'], ran_f['sigmoid'], ran_f['sin'], ran_f['cos'], ran_f['identity']]
 
-			path = 'MODI_' + MODI_path + '/matlab/data/' + scene +'NEAT_organisms/'
 			fig, ax = plt.subplots()
 			ax.yaxis.set_major_formatter(formatter)
 			plt.bar(x, val)

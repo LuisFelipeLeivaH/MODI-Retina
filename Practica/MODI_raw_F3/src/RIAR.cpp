@@ -298,6 +298,44 @@ int main(int argc, char* argv[])
             finalChampionPopulation = generationChampionPopulation;
             finalChampionFitness = generationChampionFitness;
         }
+
+        // Set random position of Obstacles
+
+        double y0 = -2;
+
+        for(int cp_y = 0; cp_y < 9; cp_y++)
+        {   
+            double x0 = -2 + 0.25*(cp_y%2);
+
+            for(int cp_x = 0; cp_x < 8 + (cp_y + 1)%2; cp_x++)
+            {            
+                if(9*cp_y + cp_x != 40)
+                {
+                    stringstream sstm1;
+                    sstm1 << "Obstacle" << 9*cp_y+cp_x<< "#";
+
+                    Object * obstacle = new Object((char*)sstm1.str().c_str());
+                    vrep->addObject(obstacle);
+
+                    double rand1 = rand()%201 - 100;
+                    double rand2 = rand()%201 - 100;
+
+                    vector < double > position;
+
+                    position.push_back(x0 + rand1/100*.10);
+                    position.push_back(y0 + rand2/100*.10);
+                    position.push_back(0.05);
+
+                    vrep->setObjectPosition(obstacle, position);
+
+                    cubes.push_back(obstacle);
+                }
+
+                x0 = x0 + 0.5;
+            }
+
+            y0 = y0 + 0.5;
+        }
 	}
 
     //////////////////////////// SAVE CHAMPION FILES /////////////////////////////////

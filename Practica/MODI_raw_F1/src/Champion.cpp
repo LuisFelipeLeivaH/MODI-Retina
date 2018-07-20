@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     RobotVREP * vrep = new RobotVREP(false, atoi(argv[2]));
 
     // ============= VREP INITIALIZATIONS ============= //
-    
+    std::cout << "Dentro de Champion.cpp" << std::endl;
     Joint * rightWheel = new Joint((char*)"SCALE", (char*)"motor_der");
     Joint * leftWheel = new Joint((char*)"SCALE", (char*)"motor_izq");
     vrep->addJoint(rightWheel);
@@ -83,7 +83,10 @@ int main(int argc, char* argv[])
     vector < double > input(NX*NY+2,0.0);
 
     Genetic_Encoding champion;
+    std::cout << "Antes de load" << std::endl;
+    std::cout << "Entrando a: " << argv[1] << std::endl;
     champion.load(argv[1]);
+    std::cout << "Despues de load" << std::endl;
 
     // ================================================ //
         
