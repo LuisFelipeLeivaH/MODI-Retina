@@ -226,9 +226,9 @@ int main(int argc, char* argv[])
     double finalChampionFitness = 0.0;
 
     ///////////////////////////////////////////////////////////
-    ofstream outfile;
-    outfile.open("raw_speeds.txt", ios::out | ios::trunc );   
-    outfile << "left \t\t right: " << endl;    
+    //ofstream outfile;
+    //outfile.open("raw_speeds.txt", ios::out | ios::trunc );   
+    //f << "left \t\t right: " << endl;    
     /////////////////////////////////////////////////////////// 
 
 	for(int g = 0; g < population.GENERATIONS; g++)
@@ -307,8 +307,8 @@ int main(int argc, char* argv[])
                     position = vrep->getObjectPosition(centerDummy);
                     orientation = vrep->getObjectOrientation(centerDummy);
 
-                    simfile->addRobotMovementFile((double)sim_time/1000000.0, position, orientation.at(2));
-                    simfile->addRobotMotorVelocityFile((double)sim_time/1000000.0, rightVel, leftVel);
+                    simfile->addRobotMovementFile(((double)sim_time + bonus_tc + bonus_tz - discount_t)/1000000.0, position, orientation.at(2));
+                    simfile->addRobotMotorVelocityFile(((double)sim_time + bonus_tc + bonus_tz - discount_t)/1000000.0, rightVel, leftVel);
 
 
 
@@ -383,7 +383,7 @@ int main(int argc, char* argv[])
                 
 
                 ///////////////////////////////                
-                outfile << L_ANN << "\t" << R_ANN << endl;
+                //outfile << L_ANN << "\t" << R_ANN << endl;
                 ///////////////////////////////
 
                 //if(rightVel > MAX_VEL) rightVel = MAX_VEL;
@@ -628,7 +628,7 @@ int main(int argc, char* argv[])
         }
 
 	}
-    outfile.close();
+    //outfile.close();
     //////////////////////////// SAVE CHAMPION FILES /////////////////////////////////
 
     stringstream cp_champion_organism, cp_champion_movement, cp_champion_motorVelocity;
