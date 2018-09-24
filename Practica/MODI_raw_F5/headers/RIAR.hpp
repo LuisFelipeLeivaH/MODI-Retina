@@ -29,7 +29,7 @@ using namespace ANN_USM;
 #define NY 32 // Y image resolution
 
 //#define TIME_SIMULATION 10000 // milliseconds
-#define TIME_SIMULATION 25000000 // microseconds
+#define TIME_SIMULATION 35000000 // microseconds
 #define BONUS_TIME 35000000 	// microseconds
 #define TIME_INIT_MEASURING 1000000 // microseconds
 
@@ -48,7 +48,7 @@ using namespace ANN_USM;
 
 //const double d_speed = (MAX_SPEED_DIF)/(DISCRETE_SPEEDS - 1);
 void proccessColisions(bool colision, unsigned int *n_colision, RobotVREP * vrep, Joint * leftWheel, Joint * rightWheel, 
-						unsigned long int *discount_t, unsigned long int *t_recovery, long int *sim_time);
+						unsigned long int *discount_t, unsigned long int *t_recovery, unsigned long int *t_recoil, long int *sim_time);
 
 
 /**
@@ -119,19 +119,21 @@ void proccessColisions(bool colision, unsigned int *n_colision, RobotVREP * vrep
 		measurement and the last one in the entire simulation. In other words, the fitness is equal to the magnitude of the distance 
 		vector which starts in the middle of the board and finishes in the last measurement point of the robot in the simulation.
 
-    MODI_raw_F4 and MODI_raw_F5:
+    MODI_raw_F4, MODI_raw_F5 and MODI_raw_F6:
 
 		In these experiments it was decided to use a new maze-like scene with cubes put randomly. The board was split into 5 different 
 		zones with a growing difficulty, and the robot gets fitness while it is approaching to the finish zone. The robot detects the 
 		collisions and recoils for a little period of time so the cube can be put in the visual domain in case it was not seen by the 
 		robot and gives the chance to recover. If the robot colides more than 2 times the fitness is punished and the time of simulation 
-		decrease. If the robot is halted for more than a fixed period of time the simulation stops. The simulation time can increase if 
-		the robot is behaving the way we want but stops relatively fast otherwise. In the case of MODI_raw_F4, NEAT decides in the speed 
-		of each individual wheel between a range of minimum and maximum speed, whereas in MODI_raw_F5 NEAT decides the differential speed 
-		for the wheels with a default "idle" speed. In this last case there is a maximum differential speed, and if NEAT tries to get it 
-		over, the robot starts rotating on its axis.
+		decrease. If the robot is halted for more than a fixed period of time the simulation stops. The same happens if the robot is turning
+		on its own axis longer than a desired time. The simulation time can increase if the robot is behaving the way we want but stops relatively 
+		fast otherwise. 
+		In the case of MODI_raw_F4, NEAT decides in the speed of each individual wheel between a range of minimum and maximum speed, whereas in 
+		MODI_raw_F5 NEAT decides the differential speed for the wheels with a default "idle" speed. In this last case there is a maximum differential 
+		speed, and if NEAT tries to get it over, the robot starts rotating on its axis. In the case of MODI_raw_F6 is exactly the same as in MODI_raw_F5
+		but it is run with an implementation of HyperNEAT, and NEAT is only used to create the CPPN for that neural network.
 
-	MODI_retina_F1, MODI_retina_F2, MODI_retina_F3, MODI_retina_F4 and MODI_retina_F5:
+	MODI_retina_F1, MODI_retina_F2, MODI_retina_F3, MODI_retina_F4, MODI_retina_F5 and MODI_retina_F6:
 
     	The only difference between MODI_raw_FX and its respective MODI_retina_FX is that the first one send the raw input image to NEAT 
     	while the latter send it after processing it with the Retina encoder.

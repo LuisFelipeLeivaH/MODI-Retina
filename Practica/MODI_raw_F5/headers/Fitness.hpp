@@ -14,6 +14,8 @@ using namespace std;
 #define FITNESS_END_ZONE2	0.8
 #define FITNESS_END_ZONE3	1.6	
 #define FITNESS_END_MAZE	2
+#define LEFT_WALL 2.3535
+#define RIGHT_WALL	-2.3466
 #define LIM_WALLx_1	2.35
 #define LIM_WALLx_2	1.625
 #define LIM_WALLx_3	0.75
@@ -25,13 +27,17 @@ using namespace std;
 #define LIM_ZONE3	10.27175
 #define LIM_ZONE4	13.228
 #define LIM_START	2.1578
-#define COLISION_COMPOUND_FACTOR	0.2		// percentage of compound interest by which the fitness decrease with collisions
-#define FINISH_FOR_IDLE	4500000		// Finishes simulation time after FINISH_FOR_IDLE usec without moving
+#define COLISION_COMPOUND_FACTOR	0.35		// percentage of compound interest by which the fitness decrease with collisions
+#define FINISH_FOR_IDLE	5500000		// Finishes simulation time after FINISH_FOR_IDLE usec without moving
 #define HALTED_THRESHOLD	0.0003	// distance units
 #define N_CUBES_ZONE_1	8
 #define N_CUBES_ZONE_2	6
 #define N_CUBES_ZONE_3	9
 #define N_CUBES_ZONE_4	6	// Twice this number but the cubes are placed in the same 'y' coordinate
+#define MAX_DIFF_SATURATION	3800000
+#define SIGM_G	6			// Sigmoid gain
+
+
 
 
 
@@ -44,7 +50,8 @@ using namespace std;
 	When the robot has collisions the fitness decrease with a compound factor. The simulation time decreases as well if 
 	the robot has more than 2 collisions. Everytime the robot passes by a cube the simulation time increases. When 
 	the robot gets a higher zone the simulation time increases as well.
-	If the robot is halted for more than FINISH_FOR_IDLE microsecs the simulation stops.
+	If the robot is halted for more than FINISH_FOR_IDLE microsecs or if its in saturation state for more than 
+	MAX_DIFF_SATURATION the simulation stops.
 
 
 */
@@ -52,8 +59,11 @@ using namespace std;
 class Fitness
 {
 private:
+	double df;					// Cut factor for getting half the maximum fitness
+	unsigned int max_cube_reached;		// Maximum cube reached in all simulations. It's used to increase df.
 	double fitness;
 	double h_distance;	
+	int saturation_counter;
 	enum Zones {zone_1=1, zone_2, zone_3, zone_4, finish};
 	Zones zone = zone_1;	
 	unsigned int next_cube;
@@ -85,6 +95,7 @@ public:
 	*	@param sim_time The current simulation time
 	*	@param discount_t The discount time in case several colisions are done			
 	*	@param n_colision A pointer to the number of colisions the robot has done
+	*	@param champion Whether the current file is champion.cpp or not (RIAR.cpp)
 	*
 	*	This function member adds the instant vector of position and velocity everytime it is invoked.
 	*	It also keeps track of the zone the robot is in and restart the collisions counter if the robot reaches a new zone.
@@ -93,11 +104,12 @@ public:
 	*
 	*/
 	void measuringValues(vector < double > position, double rightVel, double leftVel, vector <double> y_1, unsigned long int *bonus_tc, unsigned long int *bonus_tz, 
-						long int *sim_time, unsigned long int *discount_t, unsigned int *n_colision);
+						long int *sim_time, unsigned long int *discount_t, unsigned int *n_colision, bool champion);
 
 	/**
 	*	@brief Computes the fitness for the current simulation
 	*	@param n_colision The number of colisions the robot has done
+	*	@param y_1 Vectors of horizontal position for the cubes
 	*	@return The fitness of the current simulation
 	*	@see measuringValues(vector < double >, double, double)
 	*
@@ -106,7 +118,7 @@ public:
 	*	This value of the fitness and distance is stored in the object and it keeps track of the fitness per generation.
 	*
 	*/
-	double calculateFitness(unsigned int n_colision);
+	double calculateFitness(unsigned int n_colision, const vector <double> &y_1);
 
 	/**
 	*	@brief Clears the object's vector of position and right and left wheel speed

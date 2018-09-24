@@ -95,6 +95,8 @@ If you want to erase the documentation you have to open a terminal in 'Practica/
 sudo make cleandocs
 ```
 
+You may find an HTML file too in the MODI_HTML foldier where a more depicted description of the project is available.
+
 ### Cleaning the project
 
 If you want to erase the training files or for some reason the executable is corrupted or edited and you need to reinstall it you may have to go to the 'Practica' foldier and then execute the following in the terminal. It will erase the documentation too. 

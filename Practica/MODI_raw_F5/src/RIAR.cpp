@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
     vector <double> x_1 = {1.9875, 1.1875, 0.2875, -0.4125, -0.8875};
 
-    vector <double> y_1 = {1.7660, 1.3340, 0.9400, 0.389, -3.0001e-3, -0.4120, -0.8260, -1.342,
+    vector <double> y_1 = {1.4660, 1.1340, 0.6900, 0.389, -3.0001e-3, -0.4120, -0.8260, -1.342,
                            -1.32, -.8344, -.3488, .1368, .6224, 1.108,
                            1.256, .595, 8.0006e-3, -.546, -1.2050,
                            -1.021, -.409, .203, .791,
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 
         if((i+1)%3 == 0)
         {
-            position.push_back(x_fRow[i] + rand1/100*.2620);
+            position.push_back(x_fRow[i] + rand1/100*.2220);
             position.push_back(y_1[i]);
             position.push_back(0.05);
             vrep->setObjectPosition(obstacle, position);
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 
         else
         {
-            position.push_back(x_fRow[i] + rand1/100*(fRow_space/2)/3.3);
+            position.push_back(x_fRow[i] + rand1/100*(fRow_space/2)/3.7);
             position.push_back(y_1[i]);
             position.push_back(0.05);
             vrep->setObjectPosition(obstacle, position);
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 
         vector < double > position;
 
-        position.push_back(x_1[1] + rand1/100*.2620);
+        position.push_back(x_1[1] + rand1/100*.2220);
         position.push_back(y_1[i]);
         position.push_back(0.05);
 
@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
 
         vector < double > position;
 
-        position.push_back(x_1[2] + rand1/100*.2620);
+        position.push_back(x_1[2] + rand1/100*.2220);
         position.push_back(y_1[i]);
         position.push_back(0.05);
 
@@ -212,11 +212,18 @@ int main(int argc, char* argv[])
 
 	// ========== NEAT INITIALIZATIONS =========== //
 
-	vector < double > output(2,0.0);
-    vector < double > input(NX*NY+2,0.0);
+	vector < double > output(3,0.0);            // left and right wheels + inverse velocity 
+    vector < double > input(NX*NY+3,0.0);       // Image + differential velocity + (t_recovery > 0)
 
+    //cout << "Before initialization" << endl;
     Population population(argv[1], argv[2], (char *)"NEAT_RIAR", (char *)"./NEAT_organisms");
+    //cout << "After initialization" << endl;
 
+    population.survivalSelection = true;
+    population.allowClones = true;
+
+    population.survivalThreshold = 0.3;
+    population.eliteOffspringParam = 0.02;
 	// ================================================ //
 	
     namedWindow( "Display window", WINDOW_AUTOSIZE ); // Create a window for display.
@@ -228,7 +235,7 @@ int main(int argc, char* argv[])
     ///////////////////////////////////////////////////////////
     //ofstream outfile;
     //outfile.open("raw_speeds.txt", ios::out | ios::trunc );   
-    //f << "left \t\t right: " << endl;    
+    //outfile << "left \t\t right: " << endl;    
     /////////////////////////////////////////////////////////// 
 
 	for(int g = 0; g < population.GENERATIONS; g++)
@@ -244,6 +251,7 @@ int main(int argc, char* argv[])
 
             long int sim_time = 0;
             long unsigned int t_recovery = 0;
+            unsigned long int t_recoil = 0;
             unsigned long int bonus_tc = 0;         // passing by a cube
             unsigned long int bonus_tz = 0;         // passing to the next zone
             unsigned long int discount_t = 0;       // colisions
@@ -254,26 +262,30 @@ int main(int argc, char* argv[])
             double leftVel = 0.0;
             double L_ANN = 0;
             double R_ANN = 0;
+            double inverse_v = 0;
 
             vrep->setJointTargetVelocity(rightWheel, 0.0);
             vrep->setJointTargetVelocity(leftWheel, 0.0);
 
-            double rand1 = (rand()%101)/5000;
+            //double rand1 = (rand()%101)/5000;
             //double rand2 = (rand()%101)/5000;
             double rand3= rand()%201-100;
 
-            double upperBorder = -2.3230;
-            double rightBorder = -2.3230;
+            //double upperBorder = -2.3230;
+            //double rightBorder = -2.3230;
 
             vector < double > position, orientation;
 
-            position.push_back(-upperBorder*15/16/*+rand1*/);   // vertical
-            position.push_back(-rightBorder*15/16+rand1);       // horizontal
+            //position.push_back(-upperBorder*15/16/*+rand1*/);   // vertical
+            //position.push_back(-rightBorder*15/16+rand1);       // horizontal
+            position.push_back(2.0115);
+            position.push_back(2.0730);
             position.push_back(3.0110e-02);
 
             orientation.push_back(0);
             orientation.push_back(0);
             orientation.push_back((1 + (rand3/100)/5)*M_PI);
+            //orientation.push_back(-180);
             
             vrep->setObjectPosition(Modi, position);
             vrep->setObjectOrientation(Modi, orientation);
@@ -312,8 +324,8 @@ int main(int argc, char* argv[])
 
 
 
-                    proccessColisions(vrep->readCollision(structure), &n_colision, vrep, leftWheel, rightWheel, &discount_t, &t_recovery, &sim_time);
-                    fitness->measuringValues(position, rightVel, leftVel, y_1, &bonus_tc, &bonus_tz, &sim_time, &discount_t, &n_colision);
+                    proccessColisions(vrep->readCollision(structure), &n_colision, vrep, leftWheel, rightWheel, &discount_t, &t_recovery, &t_recoil, &sim_time);
+                    fitness->measuringValues(position, rightVel, leftVel, y_1, &bonus_tc, &bonus_tz, &sim_time, &discount_t, &n_colision, false);
 
                     if (abs(orientation.at(0)) > 0.78 || abs(orientation.at(1)) > 0.78)
                     {
@@ -343,36 +355,43 @@ int main(int argc, char* argv[])
                     }
                 }
                 
-                input.at(NX*NY) = (double)((2.0/(MAX_SPEED_DIF/2))*(rightVel - DEFAULT_SPEED) - 1.0);
-                input.at(NX*NY + 1) = (double)((2.0/(MAX_SPEED_DIF/2))*(leftVel - DEFAULT_SPEED) - 1.0);
+                if(t_recoil > 0)
+                {
+                    input.at(NX*NY) = (double)( ( rightVel - inverse_v*DEFAULT_SPEED )/( MAX_SPEED_DIF/2 ));
+                    input.at(NX*NY + 1) = (double)(( leftVel - inverse_v*DEFAULT_SPEED )/( MAX_SPEED_DIF/2 ) );            
+                }
+                else
+                {
+                    input.at(NX*NY) = (double)( ( rightVel - DEFAULT_SPEED )/( MAX_SPEED_DIF/2 ));
+                    input.at(NX*NY + 1) = (double)(( leftVel - DEFAULT_SPEED )/( MAX_SPEED_DIF/2 ) );            
+                }
+
+                input.at(NX*NY+2) = (t_recoil>0) ? 1 : 0;   // Colisions
 
                 output = population.organisms.at(p).eval(input);
 
-                //rightVel = output.at(0) + rightVel;
-                //leftVel = output.at(1) + leftVel;
                 L_ANN += output.at(1);
                 R_ANN += output.at(0);
+                inverse_v = output.at(2); //(output.at(2) >0) ? 1 : -0.4;
 
-                //if(t_recovery > 0)
-                //{
-                //    rightVel = -DEFAULT_SPEED*RECOIL_FACTOR + R_ANN;
-                //    leftVel = -DEFAULT_SPEED*RECOIL_FACTOR + L_ANN;
-                //}
-                //else 
-                if(L_ANN - R_ANN > MAX_SPEED_DIF)
+               
+                if(t_recoil > 0)
                 {
-                    //rightVel = DEFAULT_SPEED + (L_ANN - R_ANN)/2;
-                    //leftVel = DEFAULT_SPEED + (L_ANN - R_ANN - MAX_SPEED_DIF)/2; 
-                    rightVel = -MAX_SPEED_DIF/2;
-                    leftVel = MAX_SPEED_DIF/2; 
+                    rightVel = inverse_v*(  DEFAULT_SPEED + floor((R_ANN - L_ANN)/SPEED_STEP)*SPEED_STEP/2  );
+                    leftVel = inverse_v*(  DEFAULT_SPEED + floor((L_ANN - R_ANN)/SPEED_STEP)*SPEED_STEP/2  ); 
+                    //cout << "t_recoil = " << t_recoil << "\tinverse_v = " << inverse_v << endl;
                 }
 
-                else if (R_ANN - L_ANN > MAX_SPEED_DIF)
+                else if(L_ANN - R_ANN >= MAX_SPEED_DIF)
                 {
-                    //rightVel = DEFAULT_SPEED + (R_ANN - L_ANN - MAX_SPEED_DIF)/2;
-                    //leftVel = DEFAULT_SPEED + (R_ANN - L_ANN)/2; 
-                    rightVel = MAX_SPEED_DIF/2;
-                    leftVel = -MAX_SPEED_DIF/2; 
+                    R_ANN = rightVel = -MAX_SPEED_DIF/2;
+                    L_ANN = leftVel = MAX_SPEED_DIF/2; 
+                }
+
+                else if (R_ANN - L_ANN >= MAX_SPEED_DIF)
+                {
+                    R_ANN = rightVel = MAX_SPEED_DIF/2;
+                    L_ANN = leftVel = -MAX_SPEED_DIF/2; 
                 }
 
                 else
@@ -380,23 +399,6 @@ int main(int argc, char* argv[])
                     rightVel = DEFAULT_SPEED + floor((R_ANN - L_ANN)/SPEED_STEP)*SPEED_STEP/2;
                     leftVel = DEFAULT_SPEED + floor((L_ANN - R_ANN)/SPEED_STEP)*SPEED_STEP/2; 
                 }
-                
-
-                ///////////////////////////////                
-                //outfile << L_ANN << "\t" << R_ANN << endl;
-                ///////////////////////////////
-
-                //if(rightVel > MAX_VEL) rightVel = MAX_VEL;
-                //else if(rightVel < MIN_VEL) rightVel = MIN_VEL;
-                //if(leftVel > MAX_VEL) leftVel = MAX_VEL;
-                //else if(leftVel < MIN_VEL) leftVel = MIN_VEL;
-
-                // Discrete speeds
-                //int left_levelSpeed = floor((leftVel - MIN_VEL)/d_speed);
-                //int right_levelSpeed = floor((rightVel - MIN_VEL)/d_speed);
-
-                //leftVel = MIN_VEL + left_levelSpeed*d_speed;
-                //rightVel = MIN_VEL + right_levelSpeed*d_speed;                                                
 
                 vrep->setJointTargetVelocity(rightWheel,-rightVel);
                 vrep->setJointTargetVelocity(leftWheel,leftVel);                         
@@ -419,7 +421,7 @@ int main(int argc, char* argv[])
             simfile->closeRobotMovementFile();
             simfile->closeRobotMotorVelocityFile();  
             
-            population.organisms.at(p).fitness = fitness->calculateFitness(n_colision);             
+            population.organisms.at(p).fitness = fitness->calculateFitness(n_colision, y_1);
             simfile->addFileResults(fitness->getFitness(), g, p);
 
             clog << "Fitness:\t" << fitness->getFitness() << endl;
@@ -479,7 +481,7 @@ int main(int argc, char* argv[])
 
         ///////////////////////////////////////////////////////////////////////////////////
 
-		population.epoch();        
+		population.Epoch();        
 
         if(finalChampionFitness < generationChampionFitness)
         {
@@ -629,6 +631,10 @@ int main(int argc, char* argv[])
 
 	}
     //outfile.close();
+
+    cout << "Fitness champion: " << population.champion << "\n\n" << endl;
+    cout << population.champion.ANN_function() << endl;
+    cout << population.champion << endl;
     //////////////////////////// SAVE CHAMPION FILES /////////////////////////////////
 
     stringstream cp_champion_organism, cp_champion_movement, cp_champion_motorVelocity;
@@ -640,16 +646,19 @@ int main(int argc, char* argv[])
     if(system((char*)cp_champion_organism.str().c_str()) == -1)
     {
         cerr << "TRAIN ERROR:\tFailed to copy the Champion Organism File" << endl;
+        cerr << "cp NEAT_organisms/Champion_G" << finalChampionGeneration << "P" << finalChampionPopulation << ".txt ./NEAT_organisms/Champion.txt";
     }
 
     if(system((char*)cp_champion_movement.str().c_str()) == -1)
     {
         cerr << "TRAIN ERROR:\tFailed to copy the Champion Movement File" << endl;
+        cerr << "cp simulation_files/movement/Champion_G" << finalChampionGeneration << "P" << finalChampionPopulation << ".txt ./simulation_files/movement/Champion.txt";
     }
 
     if(system((char*)cp_champion_motorVelocity.str().c_str()) == -1)
     {
         cerr << "TRAIN ERROR:\tFailed to copy the Champion Motor Velocity File" << endl;
+        cerr << "cp simulation_files/motorVelocity/Champion_G" << finalChampionGeneration << "P" << finalChampionPopulation << ".txt ./simulation_files/motorVelocity/Champion.txt";
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -664,15 +673,16 @@ int main(int argc, char* argv[])
 }
 
 void proccessColisions(bool colision, unsigned int *n_colision, RobotVREP * vrep, Joint * leftWheel, Joint * rightWheel, 
-    unsigned long int *discount_t, unsigned long int *t_recovery, long int *sim_time)
+    unsigned long int *discount_t, unsigned long int *t_recovery, unsigned long int *t_recoil, long int *sim_time)
 {
     if(colision && *t_recovery == 0)
     {        
-        double leftVel, rightVel;
-        leftVel = rightVel = -DEFAULT_SPEED*RECOIL_FACTOR;
-        vrep->setJointTargetVelocity(rightWheel,-rightVel);
-        vrep->setJointTargetVelocity(leftWheel,leftVel);  
-        usleep(TIME_RECOIL);
+        //double leftVel, rightVel;
+        //leftVel = rightVel = -DEFAULT_SPEED*RECOIL_FACTOR;
+        //vrep->setJointTargetVelocity(rightWheel,-rightVel);
+        //vrep->setJointTargetVelocity(leftWheel,leftVel);  
+        //usleep(TIME_RECOIL);
+        *t_recoil = TIME_RECOIL;
         *t_recovery = TIME_RECOVERY;
         if(*n_colision > 2)
         {            
@@ -684,5 +694,10 @@ void proccessColisions(bool colision, unsigned int *n_colision, RobotVREP * vrep
     else if(*t_recovery > 0)
     {
         *t_recovery  -= (DELTA_TIME < *t_recovery) ? DELTA_TIME: *t_recovery;
+    }
+
+    if(*t_recoil>0)
+    {
+        *t_recoil -= (DELTA_TIME < *t_recoil) ? DELTA_TIME : *t_recoil ;
     }
 }

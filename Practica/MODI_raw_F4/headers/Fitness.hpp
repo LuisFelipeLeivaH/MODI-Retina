@@ -85,6 +85,7 @@ public:
 	*	@param sim_time The current simulation time
 	*	@param discount_t The discount time in case several colisions are done			
 	*	@param n_colision A pointer to the number of colisions the robot has done
+	*	@param champion Whether the current file is champion.cpp or not (RIAR.cpp)
 	*
 	*	This function member adds the instant vector of position and velocity everytime it is invoked.
 	*	It also keeps track of the zone the robot is in and restart the collisions counter if the robot reaches a new zone.
@@ -93,7 +94,7 @@ public:
 	*
 	*/
 	void measuringValues(vector < double > position, double rightVel, double leftVel, vector <double> y_1, unsigned long int *bonus_tc, unsigned long int *bonus_tz, 
-						long int *sim_time, unsigned long int *discount_t, unsigned int *n_colision);
+						long int *sim_time, unsigned long int *discount_t, unsigned int *n_colision, bool champion);
 
 	/**
 	*	@brief Computes the fitness for the current simulation

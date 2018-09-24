@@ -19,7 +19,7 @@ Fitness::~Fitness()
 }
 
 void Fitness::measuringValues(vector < double > position, double rightVel, double leftVel, vector<double> y_1, unsigned long int *bonus_tc, unsigned long int *bonus_tz,
-								long int *sim_time, unsigned long int *discount_t, unsigned int *n_colision)
+								long int *sim_time, unsigned long int *discount_t, unsigned int *n_colision, bool champion)
 {
 	robot_position.push_back(position);
 	robot_rightVel.push_back(rightVel);
@@ -159,7 +159,7 @@ void Fitness::measuringValues(vector < double > position, double rightVel, doubl
     	}
 
     	// Finish the simulation
-    	if(halted)
+    	if(halted && !champion)
     	{
     		cout << "Halted!" << endl;
     		*sim_time = TIME_SIMULATION;

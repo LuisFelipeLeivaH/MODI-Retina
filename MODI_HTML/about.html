@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>    
+    <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
+    <a href="results.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Results</a>
+    <a href="download.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Download</a>
+    <a href="contact.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>    
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Intro">Introduction</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Objetives">Objectives</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Exp">Experiment</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Results">Results</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div id="Intro" class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">Introduction</h1>
+      <p>We  built  a  robot  able  to  navigate  autonomously  in  a  simulated  environment.
+          To  process  visual  information  and  generate  the  corresponding  motor  actions,
+          the  robot  relies  in  an  image  encoder  based  in  the  mammalian  retina.  For  this
+          purpose,  the  encoder  was  used  as  an  input  for  an  evolving  neural  network  that
+          was  trained  with  a  genetic  algorithm,  allowing  the  robot  to  learn  how  to  effi-
+          ciently  avoid  objects.</p>
+
+          <p>The  main  features  of  the  retina-inspired  encoder  are  a  Difference  of  Gaus-
+          sians  (DoG)  spatial  filter  and  a  Difference  of  Exponentials  (DoE)  temporal
+          filter,  to  mimic  the  ON-OFF  ganglion  cells  in  the  retina.  This  approach  allows
+          the  detection  of  edges  and  movement  using  only  a  fraction  of  the  information
+          contained  in  the  original  input  image.</p>
+
+          <p>Patricio Cerda.<br>
+          Maria José Escobar <br>
+          A. Palacios</p>
+    </div>
+    <div class="w3-third w3-container">
+      <img src="MODI_2.png" width="300" class="w3-border w3-padding-large w3-padding-32 w3-center">      
+    </div>
+  </div>
+
+  <div id="Objetives" class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">Objectives</h1>
+      <p>Compare the performance achieved by an autonomous robot while trying to avoid cubes randomly placed on a board, with two different ways of proccessing the visual information: in the first place with the raw image stream coming from a camera, and in the second place proccessing that same image with the proposed retina encoder.</p>
+
+      <p>The performance is measured with two different kind of cubes, where one cube is made of a simple color, and the second one has texture and a figure on it. </p>
+
+        <p>Also, there are two board layouts, where in the first scenerio the robot is placed in the middle of a board and has to cover as much distance as possible without hit any cube, and in the second scenario the robot has to get out of a maze.</p>
+    </div>
+    <div class="w3-third w3-container">
+      <img src="MODI_1.png" width="300" class="w3-border w3-padding-large w3-padding-64 w3-center">      
+    </div>
+  </div>
+
+  <div id="Exp" class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">Experiment</h1>
+      <p>In the first experiment class, the robot is placed in the middle of a board with a lot of cubes placed randomly. The 
+      robot gains fitness basically in terms of the distance covered in the simulation in any direction. The 
+      simulation time is constant between simulations and all NEAT outputs are sent directly to the individual 
+      wheels velocity. In all cases the robot is free to do whatever it wants in the simulation time, but when 
+      it does a behavior that the experiment is worried about the fitness is penalized. All wheels are given a 
+      minimum and maximum velocity.</p>
+
+      <p>In the second experiment class, it was decided to use a new maze-like scene with cubes put randomly. The board was split into 5 different 
+    zones with a growing difficulty, and the robot gets fitness while it is approaching to the finish zone. The robot detects the 
+    collisions and gives the chance of recoiling for a little period of time so the cube can be put in the visual domain in case it was not seen by the 
+    robot and gives the chance to recover. If the robot colides more than 2 times the fitness is punished and the time of simulation 
+    decrease. If the robot is halted for more than a fixed period of time the simulation stops. The same happens if the robot is turning
+    on its own axis longer than a desired time. The simulation time can increase if the robot is behaving the way we want but stops relatively 
+    fast otherwise. There are experiments where NEAT and HyperNEAT were tested.</p>
+    <p>More information can be found in the documentation.</p>
+    </div>
+    <div class="w3-third w3-container">
+      <img src="Experiment_1.png" width="300" class="w3-border w3-padding-large w3-padding-32 w3-center">
+      <img src="Experiment_2.png" width="300" class="w3-border w3-padding-large w3-padding-64 w3-center">
+    </div>
+  </div>
+
+  <div id="Results" class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">Results</h1>
+      <p>Coming soon...</p>
+    </div>
+    <div class="w3-third w3-container">
+      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
+      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
+    </div>
+  </div>  
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      <h5>AC3E</h5>
+      <h5>Universidad Técnica Federico Santa María</h5>      
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>

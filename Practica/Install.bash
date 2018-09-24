@@ -32,7 +32,7 @@ cd ..
 if ! [[ -d NEAT ]]
 	then
 	echo "Downloading NEAT library from git repository"
-	git clone https://github.com/osilvam/NEAT.git
+	git clone https://github.com/pabloreyesrobles/NEAT.git
 	cd NEAT; make; sudo make install; cd ..;
 else
 	cd NEAT
@@ -52,10 +52,33 @@ else
 	fi
 fi
 
-if [[ ! -d "../HyperNEAT-master" ]]; then
-	echo "ERROR: HyperNEAT foldier is missing"
+#if [[ ! -d "../HyperNEAT-master" ]]; then
+#	echo "ERROR: HyperNEAT foldier is missing"
+#else
+#	cd ../HyperNEAT-master; make install; cd ../Practica
+#fi
+
+if ! [[ -d HyperNeat ]]
+	then
+	echo "Downloading HyperNeat library from git repository"
+	git clone https://github.com/osilvam/HyperNeat.git
+	cd HyperNeat; make; sudo make install; cd ..;
 else
-	cd ../HyperNEAT-master; make install; cd ../Practica
+	cd HyperNeat
+	git remote update
+	LOCAL=$(git rev-parse @)
+	REMOTE=$(git rev-parse @{u})
+	if [ $LOCAL = $REMOTE ]
+		then
+		echo "HyperNeat is already downloaded and Up-to-date"		
+		cd ..
+	else
+		cd ..
+		rm -f -R HyperNeat
+		echo "Downloading HyperNeat library from git repository"
+		git clone https://github.com/osilvam/HyperNeat.git
+		cd HyperNeat; make; sudo make install; cd ..;
+	fi
 fi
 
 #sudo apt-get -f install

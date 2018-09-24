@@ -1,0 +1,12 @@
+cd MODI_raw_F1; make; cd ..
+cd MODI_raw_F2; make; cd ..
+cd MODI_raw_F3; make; cd ..
+cd MODI_raw_F4; make; cd ..
+cd MODI_raw_F5; make; cd ..
+cd MODI_raw_F6; make; cd ..
+cd MODI_retina_F1; make; cd ..
+cd MODI_retina_F2; make; cd ..
+cd MODI_retina_F3; make; cd ..
+cd MODI_retina_F4; make; cd ..
+cd MODI_retina_F5; make; cd ..
+cd MODI_retina_F6; make; cd ..
