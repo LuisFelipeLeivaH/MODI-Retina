@@ -16,6 +16,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   bottom: 0;
   height: inherit;
 }
+/* This stylesheet sets the width of all images to 100%: */
+img {
+    width: 100%;
+}
+
 </style>
 <body>
 
@@ -51,48 +56,84 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <div id="AcFn" class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Activation functions</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
-    </div>
+      <p>There was no determinant information to state a correlation between the "raw" experiments and the "retina" experiments in terms of the activation functions. It can be seen that depending on the experiment, there is a tendency on getting more sigmoid functions in the raw experiments rather than in the retina experiment, but this rule is not consistent in the experiment F4 and F5.</p>
+      <p>Note that the last experiment F6 is not directly comparable with the other ones, because this is a CPPN implementation for HyperNEAT whereas the other ones are the core neural network.</p>
+    </div>     
+
+    <div class="w3-row" style="text-align:center">
+      <div class="w3-col m4" alt="raw_F1" style="background-image:url('./simulation_graphs/Scene1/Champion_raw_F1_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="retina_F1" style="background-image:url('./simulation_graphs/Scene1/Champion_retina_F1_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="raw_F2" style="background-image:url('./simulation_graphs/Scene1/Champion_raw_F2_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="retina_F2" style="background-image:url('./simulation_graphs/Scene1/Champion_retina_F2_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="raw_F3" style="background-image:url('./simulation_graphs/Scene1/Champion_raw_F3_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="retina_F3" style="background-image:url('./simulation_graphs/Scene1/Champion_retina_F3_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
   </div>
+      <hr>
+      <div>
+      <div class="w3-col m4" alt="raw_F4" style="background-image:url('./simulation_graphs/Scene1/Champion_raw_F4_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="retina_F4" style="background-image:url('./simulation_graphs/Scene1/Champion_retina_F4_ActivationFunctions.jpg');background-size:cover;height:250px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="raw_F5" style="background-image:url('./simulation_graphs/Scene1/Champion_raw_F5_ActivationFunctions.jpg');background-size:cover;height:260px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="retina_F5" style="background-image:url('./simulation_graphs/Scene1/Champion_retina_F5_ActivationFunctions.jpg');background-size:cover;height:260px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="raw_F6" style="background-image:url('./simulation_graphs/Scene1/Champion_raw_F6_ActivationFunctions.jpg');background-size:cover;height:260px; width:350px;">
+      </div>
+      <div class="w3-col m4" alt="retina_F6" style="background-image:url('./simulation_graphs/Scene1/Champion_retina_F6_ActivationFunctions.jpg');background-size:cover;height:260px; width:350px;">
+      </div>
+    </div>
+
+  </div>
+
+  
 
   <div id="AvF" class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Average fitnesses</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>In the experiments from F1 to F3 it can be seen that the average fitness is stagnated in the raw experiments but increase in their retina counterparts. Moreover, the standar deviation is bigger in the retina experiments thus giving less predictavility to the robot performance behavior.</p>
+      <p>In the experiments from F4 to F6 the standar deviation is a lot smaller but the fitness average does not seem to have a pattern-like slope. Maybe the robot needs more generations to have a more visible behavior.</p>
     </div>
-    <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
-    </div>
-  </div>
+
+    <div class="w3-row" style="text-align:center">
+      <div class="w3-col m4" alt="Fitness_F1-F3" style="background-image:url('./simulation_graphs/Scene1/experimentFitness_comparison_F1-F3.jpg');background-size:cover;height:460px; width:800px;">
+      </div>
+      </div>
+      <hr>
+      <div>
+      <div class="w3-col m4" alt="Fitness_F4-F6" style="background-image:url('./simulation_graphs/Scene1/experimentFitness_comparison_F4-F6.jpg');background-size:cover;height:460px; width:800px;">
+      </div>
+  </div>    
 
   <div id="CF" class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Champion fitnesses</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>In the experiments from F1 to F3 </p>
+      <p>In the experiments from F4 to F6 </p>
     </div>
-    <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
-    </div>
+   
+    <div class="w3-row" style="text-align:center">
+      <div class="w3-col m4" alt="Champion_F1-F3" style="background-image:url('./simulation_graphs/Scene1/Champion_comparison_F1-F3.jpg');background-size:cover;height:460px; width:800px;">
+      </div>
+      </div>
+      <hr>
+      <div>
+      <div class="w3-col m4" alt="Champion_F4-F6" style="background-image:url('./simulation_graphs/Scene1/Champion_comparison_F4-F6.jpg');background-size:cover;height:470px; width:800px;">
+      </div>
+  </div> 
+
   </div>
   
   <div id="Sc" class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Scene</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
+      <p>The simulations must be done in order to fill this in.</p>
     </div>
   </div>
 
