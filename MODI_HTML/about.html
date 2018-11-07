@@ -39,8 +39,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <a class="w3-bar-item w3-button w3-hover-black" href="#Intro">Introduction</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="#Objetives">Objectives</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="#Exp">Experiment</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#Results">Improvements</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#Results">Future work</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Improvements">Improvements</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Future work">Future work</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -116,22 +116,51 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <div id="Improvements" class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Improvements</h1>
-      <p>Coming soon...</p>
+      <ul>
+        <p><li>The first change was to consider a maze with cubes put as obstacles.</li></p>
+        <p><li>Any time the robot passes by an obstacle, the fitness increases in a sigmoid way.</li></p>
+        <p><li>Collisions are given to the neural network so it can decide whether return or keep moving the same way. This is important because sometimes the robot hits a cube but nothing is at sight. This happens since the camera angle doesn't reach the wheels. It is up to the robot to decide what to do in those cases and it is given a short recoil time where the default speed settings are turned off.</li></p>        
+        <p><li>The maze is divided by stages. Any stage gives increasingly different levels of reward to the robot. It was decided to put every horizontal row of the maze as a different stage. Any time the robot reaches a new stage the previous collisions are declined.</li></p>
+        <p><li>The robot lose fitness if it doesn't go forward the stage.</li></p>
+        <p><li>If the robot is stuck in the beginning the idea is that the simulation stops fast, but if the robot advance in the maze the simulation must last more. This is why any time the robot overtakes a new cube the simulation time increases. This happens only once per cube.</li></p>
+        <p><li>If the robot crashes more than a defined number of times, the fitness decrease in a compound way and the simulation time decrease. The idea behind this is to end quickly simulation of robots that cannot avoid cubes but at the same time letting the robot hitting cubes by accident as a way of making out for the possible collisions with the cube out of sight.</li></p>  
+        <p><li>There is a possibility of setting discrete speeds so that the robot has smaller free range.</li></p>
+        <p><li>A maximum differential wheel speed was set. It was decided the robot to pivot when this threshold was reached.</li></p>
+        <p><li>If the robot is halted for more than a fixed time span, the simulation stops. The same happens if the robot is pivoting more than another time threshold.</li></p>
+        <p><li>The project was extensively documented and all the data can be easily processed with a python script. The project may be found in GIT and can be easily installed with everything needed.</li></p>
+        <p><li>An anti wind-up mechanism was implemented in the maximum differential speed of the wheels.</li></p>
+        <p><li>There are three new experiments, every one of them with all the already said improvements:
+          <ol>
+            <li>The two wheels are independent and the robot uses only NEAT</li>
+            <li>There is a default speed and the direction is controlled by NEAT</li>
+            <li>There is a default speed and the direction is controlled by HyperNEAT</li>
+          </ol>
+        </li></p>
+        <p><li>It was used at the end of this internship the NEAT version made by <a href="https://github.com/pabloreyesrobles/">Pablo Reyes</a></li></p>
+        <p><li>An HTML document was created to expose the project.</li></p>
+      </ul>    
+    </div>
+
+    <div class="w3-third w3-container">
+      <img src="Maze.png" width="300" height="500" class="w3-border w3-padding-large w3-padding-64 w3-center">      
     </div>
     <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
-    </div>
+      <img src="Maze2.png" width="300" height="500" class="w3-border w3-padding-large w3-padding-64 w3-center">      
+    </div>    
   </div>    
 
   <div id="Future work" class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Future work</h1>
-      <p>Coming soon...</p>
-    </div>
-    <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
+      <ul>
+        <p><li>Narrow the maze so that the robot must decide on going in "one route or the other"</li></p>
+        <p><li>Adding a gyroscope so that the robot can know if it is going back in the maze.</li></p>
+        <p><li>Fix random bugs related with NEAT and a mismatch size in population (sometimes the simulation ends earlier than expected).</li></p>
+        <p><li>Problem running Champion. For some reason, when the champion is loaded, it doesn't behave like the actual champion but has a very bad performance instead.</li></p>
+        <p><li>Look for a way of extending the camera angle of the robot. Maybe is the camera is placed further back in the robot's top, it could be possible to see the wheels while moving</li></p>
+        <p><li>Find a way of improving the performance of the robot in the task of learning. A steeper curve should be expected in the average fitness. It should be tried to use higher generation numbers and see the performance for numbers greater than 30, as it was rendered in this document.</li></p>
+
+      </ul>      
     </div>
   </div>  
 
